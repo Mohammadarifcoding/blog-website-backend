@@ -7,9 +7,6 @@ const userValidationSchema = z.object({
     email: z.string().email("Invalid email address"),
     role: z.enum(['user','admin']).default('user'),
     password: z.string().min(6, "Password must be at least 6 characters long"),
-    gender:z.enum(['male','female']),
-    dateOfBirth:z.string(),
-    phone: z.string(),
     isDeleted:z.boolean().default(false),
     isBlocked:z.boolean().default(false)
   })

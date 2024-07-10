@@ -9,9 +9,6 @@ const userSchema = new Schema<TUser>(
     email: { type: String, required: true, unique: true },
     role: { type: String, enum: ['user', 'admin'], required: true },
     password: { type: String, required: true },
-    dateOfBirth:{type:String,required:true},
-    phone: { type: String, required: true },
-    gender:{type:String, enum:['male','female'], required:true},
     isDeleted: { type: Boolean, default: false },
     isBlocked:{type:Boolean, default:false}
   },

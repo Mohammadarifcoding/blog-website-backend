@@ -7,9 +7,6 @@ export interface TUser {
   email: string;
   role: TUserRole;
   password: string;
-  gender:TUserGender;
-  dateOfBirth:string;
-  phone: string;
   isDeleted:boolean,
   isBlocked:boolean
 }

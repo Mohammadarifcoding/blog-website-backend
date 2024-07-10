@@ -8,9 +8,6 @@ export const createToken = (
     name: string;
     email: string;
     role: TUserRole;
-    gender: string;
-    dateOfBirth: string;
-    phone: string;
     isDeleted: boolean;
     isBlocked: boolean;
     _id: Types.ObjectId;
