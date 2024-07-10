@@ -1,39 +1,41 @@
-
 import { Schema, model } from 'mongoose';
+import { TBlog, TImage } from './blog.interface';
 
-import { TUser } from './user.interface';
+const imageSchema = new Schema<TImage>({
+  url: { type: String, required: true },
+});
 
-const userSchema = new Schema<TUser>(
+const BlogSchema = new Schema<TBlog>(
   {
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    role: { type: String, enum: ['user', 'admin'], required: true },
-    password: { type: String, required: true },
+    title: { type: String, required: true },
+    content: { type: [String], required: true },
+    author: { type: String, required: true },
+    tags: { type: [String], default: [] },
+    category: { type: String, required: true },
+    images: { type: [imageSchema], default: [] },
+    postType: { type: String, enum: ['guest', 'admin'], required: true },
+    userId: { type: String, required: true },
+    likes: { type: Number, default: 0 },
     isDeleted: { type: Boolean, default: false },
-    isBlocked:{type:Boolean, default:false}
   },
   {
     timestamps: true,
   },
 );
 
-
-
-userSchema.pre('find', function (next) {
+BlogSchema.pre('find', function (next) {
   this.find({ isDeleted: { $ne: true } });
   next();
 });
 
-userSchema.pre('findOne', function (next) {
+BlogSchema.pre('findOne', function (next) {
   this.find({ isDeleted: { $ne: true } });
   next();
 });
 
-userSchema.pre('aggregate', function (next) {
+BlogSchema.pre('aggregate', function (next) {
   this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
   next();
 });
 
-
-
-export const UserModel = model<TUser>('User', userSchema);
+export const BlogModel = model<TBlog>('Blog', BlogSchema);
