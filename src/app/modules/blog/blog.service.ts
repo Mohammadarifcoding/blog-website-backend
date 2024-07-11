@@ -25,6 +25,7 @@ const deleteBlogFromDb = async(id:string)=>{
 }
 
 
-export const PostServices = {
+
+export const BlogServices = {
   createBlogIntoDB,getBlogFromDb,updateBlogFromDb,deleteBlogFromDb
 };
