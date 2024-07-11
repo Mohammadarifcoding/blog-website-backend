@@ -4,8 +4,30 @@ import sendResponse from '../../utils/sendResponse';
 import { BlogServices } from './blog.service';
 import { RequestHandler } from 'express';
 
+const createBlog: RequestHandler = catchAsync(async (req, res) => {
+  const result = await BlogServices.createBlogIntoDB(req.body);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Blog is created succesfully',
+    data: result,
+  });
+});
+
+const getAllBlog: RequestHandler = catchAsync(async (req, res) => {
+  const result = await BlogServices.getBlogFromDb(req.query);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Blog is retrieved succesfully',
+    data: result,
+  });
+});
+
 const getSingleBlog: RequestHandler = catchAsync(async (req, res) => {
-  const result = await BlogServices.getBlogFromDb(req.params);
+  const { id } = req.params;
+  const result = await BlogServices.getSingleBlogFromDb(id);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -44,4 +66,6 @@ export const BlogControllers = {
   getSingleBlog,
   deleteBlog,
   updateBlog,
+  createBlog,
+  getAllBlog
 };
