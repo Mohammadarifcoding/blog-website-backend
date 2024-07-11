@@ -9,7 +9,7 @@ const imageValidationSchema = z.object({
 // Blog validation schema
 const blogValidationSchema = z.object({
   title: z.string(),
-  content: z.array(z.string()).nonempty("Content is required"),
+  content: z.string(),
   author: z.string(),
   tags: z.array(z.string()).optional(),
   category: z.string(),

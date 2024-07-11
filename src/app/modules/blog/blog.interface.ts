@@ -6,7 +6,7 @@ export interface TImage {
 
 export interface TBlog {
     title: string;
-    content: string[];
+    content: string;
     author: string;
     tags?: string[];
     category: string;

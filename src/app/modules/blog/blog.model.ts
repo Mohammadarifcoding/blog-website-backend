@@ -8,7 +8,7 @@ const imageSchema = new Schema<TImage>({
 const BlogSchema = new Schema<TBlog>(
   {
     title: { type: String, required: true },
-    content: { type: [String], required: true },
+    content: { type: String, required: true },
     author: { type: String, required: true },
     tags: { type: [String], default: [] },
     category: { type: String, required: true },
