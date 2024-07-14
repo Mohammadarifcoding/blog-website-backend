@@ -39,8 +39,8 @@ const getSingleBlog: RequestHandler = catchAsync(async (req, res) => {
 
 const updateBlog = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const { Blog } = req.body;
-  const result = await BlogServices.updateBlogFromDb(id, Blog);
+
+  const result = await BlogServices.updateBlogFromDb(id, req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

@@ -20,5 +20,17 @@ const blogValidationSchema = z.object({
   isDeleted: z.boolean().default(false).optional(),
 });
 
+const UpdateBlogValidation = z.object({
+  title: z.string().optional(),
+  content: z.string().optional(),
+  author: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  category: z.string().optional(),
+  images: z.array(imageValidationSchema).optional(),
+  postType: z.enum(['guest', 'admin']).default('admin').optional(),
+  userId: z.string().optional(),
+  likes: z.number().default(0).optional(),
+  isDeleted: z.boolean().default(false).optional(),
+});
 
-export const BlogValidation = {blogValidationSchema}
+export const BlogValidation = {blogValidationSchema,UpdateBlogValidation}
