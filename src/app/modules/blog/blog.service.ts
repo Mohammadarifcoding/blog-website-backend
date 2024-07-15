@@ -11,6 +11,7 @@ const createBlogIntoDB = async (payload: TBlog) => {
 };
 
 const getBlogFromDb = async (query: Partial<TBlog>) => {
+  console.log(query)
   const result = await BlogModel.find(query).populate('userId');
   return result;
 };

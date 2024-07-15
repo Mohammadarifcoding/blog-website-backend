@@ -14,6 +14,7 @@ export interface TBlog {
     postType: 'guest' | 'admin';
     userId: string;
     likes?: number;
-    isDeleted:boolean
+    isDeleted:boolean;
+    status:'pending'|'approved'
 }
 

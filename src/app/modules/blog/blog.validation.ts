@@ -18,6 +18,7 @@ const blogValidationSchema = z.object({
     userId: z.string(),
     likes: z.number().default(0).optional(),
     isDeleted: z.boolean().default(false).optional(),
+    status:z.enum(['pending','approved']).default('pending')
   }),
 });
 
@@ -33,6 +34,7 @@ const UpdateBlogValidation = z.object({
     userId: z.string().optional(),
     likes: z.number().default(0).optional(),
     isDeleted: z.boolean().default(false).optional(),
+    status:z.enum(['pending','approved']).default('pending').optional()
   }),
 });
 

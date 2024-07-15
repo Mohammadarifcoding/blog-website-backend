@@ -15,6 +15,7 @@ const BlogSchema = new Schema<TBlog>(
     images: { type: [imageSchema], default: [] },
     postType: { type: String, enum: ['guest', 'admin'], required: true },
     userId: { type: String, required: true, ref: 'User' },
+    status:{type:String , enum:['pending','approved'] , default:'pending'},
     likes: { type: Number, default: 0 },
     isDeleted: { type: Boolean, default: false },
   },
