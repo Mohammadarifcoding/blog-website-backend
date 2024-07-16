@@ -48,10 +48,28 @@ const deleteBlogFromDb = async (id: string) => {
   return result;
 };
 
+const GiveLikeToBlogToDb = async(id:string)=>{
+  const findData = await BlogModel.findById(id)
+  if(!findData){
+    throw new AppError(httpStatus.NOT_FOUND,"Coludn't found the data")
+  }
+  const result = await BlogModel.findOneAndUpdate({_id:id},{$inc: {likes: 1}},{new:true})
+  return result
+
+}
+const RemoveLikeToBlogToDb = async(id:string)=>{
+  const findData = await BlogModel.findById(id)
+  if(!findData){
+    throw new AppError(httpStatus.NOT_FOUND,"Coludn't found the data")
+  }
+  const result = await BlogModel.findOneAndUpdate({_id:id},{$inc: {likes: -1}},{new:true})
+  return result
+
+}
 export const BlogServices = {
   createBlogIntoDB,
   getBlogFromDb,
   updateBlogFromDb,
   deleteBlogFromDb,
-  getSingleBlogFromDb
+  getSingleBlogFromDb,GiveLikeToBlogToDb,RemoveLikeToBlogToDb
 };
