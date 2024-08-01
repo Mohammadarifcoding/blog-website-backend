@@ -22,13 +22,15 @@ const getBlogFromDb = async (query: Partial<TBlog>) => {
   return result;
 };
 const getSingleBlogFromDb = async(id:string)=>{
-    const result = await BlogModel.findOne({_id:id}).populate('author');
-    const Like = await LikeModel.find({blogId:id,userId:result?.author})
+    const result = await BlogModel.find({_id:id}).populate('author');
+    
+    const Like = await LikeModel.find({blogId:id,userId:result[0]?.author})
+    console.log({...result , ...Like})
     if(!result){
       throw new AppError(httpStatus.NOT_FOUND,"Coludn't found the item")
     }
     else{
-      return {...result ,like: Like.length}
+      return {...result }
     }
     
 }

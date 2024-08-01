@@ -11,4 +11,4 @@ router.patch(
   LikeController.DoInteractionToBlog,
 );
 
-export const BlogRoutes = router;
+export const LikeRoutes = router;
