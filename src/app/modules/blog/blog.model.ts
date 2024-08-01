@@ -4,18 +4,15 @@ import { TBlog, TImage } from './blog.interface';
 const imageSchema = new Schema<TImage>({
   url: { type: String, required: true },
 });
-
 const BlogSchema = new Schema<TBlog>(
   {
     title: { type: String, required: true },
     content: { type: String, required: true },
-    author: { type: String, required: true },
     tags: { type: [String], default: [] },
     category: { type: String, required: true },
     images: { type: [imageSchema], default: [] },
-    postType: { type: String, enum: ['guest', 'admin'], required: true },
-    userId: { type: String, required: true },
-    likes: { type: Number, default: 0 },
+    author: { type: String, required: true, ref: 'User' },
+    status:{type:String , enum:['pending','approved'] , default:'pending'},
     isDeleted: { type: Boolean, default: false },
   },
   {

@@ -5,7 +5,8 @@ import { BlogServices } from './blog.service';
 import { RequestHandler } from 'express';
 
 const createBlog: RequestHandler = catchAsync(async (req, res) => {
-  const result = await BlogServices.createBlogIntoDB(req.body);
+  // @ts-ignore
+  const result = await BlogServices.createBlogIntoDB(req.body,req.user);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -61,11 +62,33 @@ const deleteBlog = catchAsync(async (req, res) => {
     data: result,
   });
 });
+// const GiveLikeToBlog = catchAsync(async (req, res) => {
+//   const { id } = req.params;
+//   const result = await BlogServices.GiveLikeToBlogToDb(id);
+
+//   sendResponse(res, {
+//     statusCode: httpStatus.OK,
+//     success: true,
+//     message: 'Give like to Blog',
+//     data: result,
+//   });
+// });
+const RemoveLikeToBlog = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await BlogServices.RemoveLikeToBlogToDb(id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Remove like from Blog',
+    data: result,
+  });
+});
 
 export const BlogControllers = {
   getSingleBlog,
   deleteBlog,
   updateBlog,
-  createBlog,
+  createBlog,RemoveLikeToBlog,
   getAllBlog
 };

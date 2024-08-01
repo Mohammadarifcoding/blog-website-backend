@@ -6,21 +6,22 @@ import { BlogValidation } from './blog.validation';
 
 const router = express.Router();
 
-router.get('/', auth('admin', 'user'), BlogControllers.getAllBlog);
+router.get('/',auth('user', 'admin'),  BlogControllers.getAllBlog);
 
-router.get('/:id', auth('admin', 'user'), BlogControllers.getSingleBlog);
+router.get('/:id',auth('user', 'admin'),  BlogControllers.getSingleBlog);
 router.post(
   '/',
-  auth('admin', 'user'),
+  auth('user', 'admin'),
   validateRequest(BlogValidation.blogValidationSchema),
   BlogControllers.createBlog,
 );
 router.patch(
   '/:id',
-  auth('admin', 'user'),
+  auth('user', 'admin'),
   validateRequest(BlogValidation.UpdateBlogValidation),
   BlogControllers.updateBlog,
 );
-router.delete('/:id', auth('admin', 'user'), BlogControllers.deleteBlog);
+router.delete('/:id',auth('user', 'admin'),  BlogControllers.deleteBlog);
+
 
 export const BlogRoutes = router;
