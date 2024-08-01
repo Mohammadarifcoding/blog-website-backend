@@ -11,7 +11,6 @@ export interface TBlog {
     tags?: string[];
     category: string;
     images?: TImage[];
-    writerType: 'guest' | 'admin';
     isDeleted:boolean;
     status:'pending'|'approved'
 }

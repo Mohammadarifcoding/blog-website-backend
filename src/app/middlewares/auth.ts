@@ -19,7 +19,7 @@ const auth = (...requiredRoles:TUserRole[]) => {
       token.slice(7),
       config.secret_access_token as string,
     ) as JwtPayload;
-    const { name, email, role, phone, address, isDeleted} = decoded;
+    const { email, role, } = decoded;
 
     const user = await UserModel.findOne({ email: email });
 

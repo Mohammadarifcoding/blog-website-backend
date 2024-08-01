@@ -14,7 +14,6 @@ const blogValidationSchema = z.object({
     tags: z.array(z.string()).optional(),
     category: z.string(),
     images: z.array(imageValidationSchema).optional(),
-    writerType: z.enum(['guest', 'admin']).default('admin'),
     isDeleted: z.boolean().default(false).optional(),
     status:z.enum(['pending','approved']).default('pending')
   }),
@@ -28,7 +27,6 @@ const UpdateBlogValidation = z.object({
     tags: z.array(z.string()).optional(),
     category: z.string().optional(),
     images: z.array(imageValidationSchema).optional(),
-    writerType: z.enum(['guest', 'admin']).default('admin').optional(),
     isDeleted: z.boolean().default(false).optional(),
     status:z.enum(['pending','approved']).default('pending').optional()
   }),
