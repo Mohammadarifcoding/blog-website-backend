@@ -3,6 +3,7 @@ import httpStatus from 'http-status';
 import AppError from '../../errors/AppError';
 import { TBlog } from './blog.interface';
 import { BlogModel } from './blog.model';
+import { LikeModel } from '../like/like.model';
 
 const createBlogIntoDB = async (payload: TBlog) => {
   const result = await BlogModel.create(payload);
@@ -17,11 +18,12 @@ const getBlogFromDb = async (query: Partial<TBlog>) => {
 };
 const getSingleBlogFromDb = async(id:string)=>{
     const result = await BlogModel.findOne({_id:id}).populate('userId')
+    const Like = await LikeModel.find({blogId:id,userId:result?.author})
     if(!result){
       throw new AppError(httpStatus.NOT_FOUND,"Coludn't found the item")
     }
     else{
-      return result
+      return {...result ,like: Like.length}
     }
     
 }
