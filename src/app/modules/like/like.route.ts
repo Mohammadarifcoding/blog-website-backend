@@ -10,5 +10,6 @@ router.patch(
   validateRequest(LikeValidation.LikeValidationSchema),
   LikeController.DoInteractionToBlog,
 );
+router.get('/check',validateRequest(LikeValidation.LikeValidationSchema),LikeController.CheckInteraction)
 
 export const LikeRoutes = router;

@@ -4,6 +4,7 @@ import { TBlog } from './blog.interface';
 import { BlogModel } from './blog.model';
 import { LikeModel } from '../like/like.model';
 import { UserModel } from '../user/user.model';
+import { ReviewModel } from '../review/review.model';
 // @ts-ignore
 const createBlogIntoDB = async (payload: TBlog, user) => {
   const { role } = user;
@@ -34,9 +35,14 @@ const getSingleBlogFromDb = async (id: string) => {
       // @ts-ignore
       userId: result?.author._id,
     });
+    const review = await ReviewModel.find({
+      blogId: id,
+      // @ts-ignore
+      userId: result?.author._id,
+    })
     // const data = {result[0]}
     console.log({ ...result, ...Like });
-    return { blog: result, Like: Like.length };
+    return { blog: result, Like: Like.length, review: review };
   }
 };
 
