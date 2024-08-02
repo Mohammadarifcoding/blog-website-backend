@@ -15,6 +15,6 @@ const CreateReview:RequestHandler = catchAsync(async(req,res)=>{
 })
 
 
-export const LikeController = {
+export const ReviewController = {
     CreateReview
 }
