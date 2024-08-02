@@ -3,6 +3,7 @@ import { Router } from 'express';
 import { AuthRoutes } from '../modules/user/user.route';
 import { BlogRoutes } from '../modules/blog/bllog.route';
 import { LikeRoutes } from '../modules/like/like.route';
+import { ReviewRoutes } from '../modules/review/review.route';
 
 
 const router = Router();
@@ -20,6 +21,10 @@ const moduleRoutes = [
   {
     path:'/like',
     route:LikeRoutes
+  },
+  {
+    path:'/review',
+    route:ReviewRoutes
   }
 
 ];
