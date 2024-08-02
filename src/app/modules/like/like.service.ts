@@ -2,7 +2,7 @@ import { LikeModel } from "./like.model"
 
 const DoInteractionToBlogInDb = async(blogId:string,userId:string)=>{
     const findLike = await LikeModel.find({blogId:blogId,userId:userId})
-    if(findLike){
+    if(findLike.length){
         const deleteLike = await LikeModel.deleteOne({blogId:blogId,userId:userId})
         return deleteLike
     }

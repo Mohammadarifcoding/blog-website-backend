@@ -34,7 +34,7 @@ const getSingleBlog: RequestHandler = catchAsync(async (req, res) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Blog is retrieved succesfully',
-    data: result,
+    data: {...result},
   });
 });
 
