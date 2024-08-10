@@ -6,9 +6,9 @@ import { BlogValidation } from './blog.validation';
 
 const router = express.Router();
 
-router.get('/',auth('user', 'admin'),  BlogControllers.getAllBlog);
+router.get('/', BlogControllers.getAllBlog);
 
-router.get('/:id',auth('user', 'admin'),  BlogControllers.getSingleBlog);
+router.get('/:id',  BlogControllers.getSingleBlog);
 router.post(
   '/',
   auth('user', 'admin'),
