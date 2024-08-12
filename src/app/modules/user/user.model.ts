@@ -9,8 +9,9 @@ const userSchema = new Schema<TUser>(
     email: { type: String, required: true, unique: true },
     role: { type: String, enum: ['user', 'admin'], required: true },
     password: { type: String, required: true },
+    profileImg: { type: String, required: true },
     isDeleted: { type: Boolean, default: false },
-    isBlocked:{type:Boolean, default:false}
+    isBlocked: { type: Boolean, default: false },
   },
   {
     timestamps: true,
@@ -37,11 +38,8 @@ userSchema.pre('save', async function (next) {
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const user = this; // doc
   // hashing password and save into DB
-  let salt =await  bcrypt.genSaltSync(Number(config.bcrypt_salt_rounds))
-  user.password = await bcrypt.hash(
-    user.password,
-    salt,
-  );
+  let salt = await bcrypt.genSaltSync(Number(config.bcrypt_salt_rounds));
+  user.password = await bcrypt.hash(user.password, salt);
   next();
 });
 
@@ -65,7 +63,6 @@ userSchema.pre('aggregate', function (next) {
   this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
   next();
 });
-
 
 userSchema.statics.isUserExistsByCustomId = async function (id: string) {
   return await UserModel.findOne({ id }).select('+password');

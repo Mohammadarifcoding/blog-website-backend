@@ -10,8 +10,9 @@ export interface TBlog {
     author: string;
     tags?: string[];
     category: string;
-    images?: TImage[];
+    images?: string;
     isDeleted:boolean;
+    postType:'admin'|'guest'
     status:'pending'|'approved'
 }
 

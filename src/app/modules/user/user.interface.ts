@@ -8,7 +8,8 @@ export interface TUser {
   role: TUserRole;
   password: string;
   isDeleted:boolean,
-  isBlocked:boolean
+  isBlocked:boolean,
+  profileImg: string
 }
 
 export type TAuth  = {
