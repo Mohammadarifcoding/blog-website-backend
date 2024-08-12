@@ -1,18 +1,19 @@
 import { Schema, model } from 'mongoose';
 import { TBlog, TImage } from './blog.interface';
 
-const imageSchema = new Schema<TImage>({
-  url: { type: String, required: true },
-});
+// const imageSchema = new Schema<TImage>({
+//   url: { type: String, required: true },
+// });
 const BlogSchema = new Schema<TBlog>(
   {
     title: { type: String, required: true },
     content: { type: String, required: true },
     tags: { type: [String], default: [] },
     category: { type: String, required: true },
-    images: { type: [imageSchema], default: [] },
+    images: { type: String, default: [] },
     author: { type: String, required: true, ref: 'User' },
     status:{type:String , enum:['pending','approved'] , default:'pending'},
+    postType : {type: String , enum: ['admin','guest']},
     isDeleted: { type: Boolean, default: false },
   },
   {

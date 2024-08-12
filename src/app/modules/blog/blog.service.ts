@@ -8,13 +8,11 @@ import { ReviewModel } from '../review/review.model';
 // @ts-ignore
 const createBlogIntoDB = async (payload: TBlog, user) => {
   const { role } = user;
-  const findUser = await UserModel.findById(payload.author);
-  if (!findUser) {
-    throw new AppError(httpStatus.NOT_FOUND, "Cloudn't find the user");
-  }
   const result = await BlogModel.create({
     ...payload,
     status: role == 'admin' ? 'approved' : 'pending',
+    author : user._id,
+    postType: role == 'admin' ? 'admin' : 'guest',
   });
   return result;
 };
