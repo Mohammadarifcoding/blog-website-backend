@@ -40,7 +40,7 @@ const DoingSigninIntoDb = async (payload: TAuth) => {
   const accessToken = createToken(
     jwtPayload,
     config.secret_access_token as string,
-    '24hr',
+    '100hr',
   );
 
   // const refreshToken = createToken(

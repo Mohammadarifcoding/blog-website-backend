@@ -33,8 +33,8 @@ const getSingleBlogFromDb = async (id: string) => {
     });
     const review = await ReviewModel.find({
       blogId: id,
-    })
-    // const data = {result[0]}
+    }).populate('userId')
+    // const data = {result[0]}t
     console.log({ ...result, ...Like });
     return { blog: result, Like: Like.length, review: review };
   }

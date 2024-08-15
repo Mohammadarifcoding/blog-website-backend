@@ -18,7 +18,9 @@ const DoInteractionToBlog:RequestHandler = catchAsync(async(req,res)=>{
 
 
 const CheckInteraction:RequestHandler = catchAsync(async(req,res)=>{
-    const {blogId,userId} = req.body
+    // @ts-ignore
+    const {_id:userId} = req.user
+    const {blogId} = req.params
     const result = await LikeService.CheckInteractionByDb(blogId,userId)
     sendResponse(res,{
         statusCode: httpStatus.OK,

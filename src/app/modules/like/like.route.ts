@@ -12,6 +12,6 @@ router.patch(
   validateRequest(LikeValidation.LikeValidationSchema),
   LikeController.DoInteractionToBlog,
 );
-router.get('/check',auth('user','admin'),validateRequest(LikeValidation.LikeValidationSchema),LikeController.CheckInteraction)
+router.get('/check/:blogId',auth('user','admin'),LikeController.CheckInteraction)
 
 export const LikeRoutes = router;
