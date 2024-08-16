@@ -32,7 +32,19 @@ const CheckInteraction:RequestHandler = catchAsync(async(req,res)=>{
     })
 })
 
+const CountInteraction:RequestHandler = catchAsync(async(req,res)=>{
+    // @ts-ignore
+    const {id} = req.params
+    const result = await LikeService.CountLikeFromDb(id)
+    sendResponse(res,{
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'Count the Interaction',
+        data: result,
+    })
+})
+
 
 export const LikeController = {
-    DoInteractionToBlog,CheckInteraction
+    DoInteractionToBlog,CheckInteraction,CountInteraction
 }
