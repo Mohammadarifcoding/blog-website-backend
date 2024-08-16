@@ -7,11 +7,12 @@ import auth from '../../middlewares/auth';
 const router = express.Router();
 
 router.patch(
-  '/',
+  '/:blogId',
   auth('user','admin'),
-  validateRequest(LikeValidation.LikeValidationSchema),
+  // validateRequest(LikeValidation.LikeValidationSchema),
   LikeController.DoInteractionToBlog,
 );
-router.get('/check',auth('user','admin'),validateRequest(LikeValidation.LikeValidationSchema),LikeController.CheckInteraction)
+router.get('/check/:blogId',auth('user','admin'),LikeController.CheckInteraction)
+router.get('/count/:id',LikeController.CountInteraction)
 
 export const LikeRoutes = router;

@@ -12,13 +12,22 @@ const DoInteractionToBlogInDb = async(blogId:string,userId:string)=>{
 
 const CheckInteractionByDb = async(blogId:string,userId:string)=>{
   let result = false
-  const findLike = await LikeModel.find({blogId:blogId,userId:userId})
+  const findLike = await LikeModel.findOne({blogId:blogId,userId:userId})
   if(findLike){
     result = true
+  }
+  else{
+    result = false
   }
   return result
 
 }
+
+
+const CountLikeFromDb = async(blogId:string)=>{
+  const result = await LikeModel.find({blogId:blogId})
+  return result
+}
 export const LikeService = {
-    DoInteractionToBlogInDb,CheckInteractionByDb
+    DoInteractionToBlogInDb,CheckInteractionByDb,CountLikeFromDb
 }

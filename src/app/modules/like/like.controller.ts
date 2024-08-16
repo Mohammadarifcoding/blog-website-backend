@@ -6,7 +6,9 @@ import sendResponse from "../../utils/sendResponse";
 import httpStatus from "http-status";
 
 const DoInteractionToBlog:RequestHandler = catchAsync(async(req,res)=>{
-    const {blogId,userId} = req.body
+    // @ts-ignore
+    const {_id:userId} = req.user
+    const {blogId} = req.params
     const result = await LikeService.DoInteractionToBlogInDb(blogId,userId)
     sendResponse(res,{
         statusCode: httpStatus.OK,
@@ -18,7 +20,9 @@ const DoInteractionToBlog:RequestHandler = catchAsync(async(req,res)=>{
 
 
 const CheckInteraction:RequestHandler = catchAsync(async(req,res)=>{
-    const {blogId,userId} = req.body
+    // @ts-ignore
+    const {_id:userId} = req.user
+    const {blogId} = req.params
     const result = await LikeService.CheckInteractionByDb(blogId,userId)
     sendResponse(res,{
         statusCode: httpStatus.OK,
@@ -28,7 +32,19 @@ const CheckInteraction:RequestHandler = catchAsync(async(req,res)=>{
     })
 })
 
+const CountInteraction:RequestHandler = catchAsync(async(req,res)=>{
+    // @ts-ignore
+    const {id} = req.params
+    const result = await LikeService.CountLikeFromDb(id)
+    sendResponse(res,{
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'Count the Interaction',
+        data: result,
+    })
+})
+
 
 export const LikeController = {
-    DoInteractionToBlog,CheckInteraction
+    DoInteractionToBlog,CheckInteraction,CountInteraction
 }

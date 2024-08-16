@@ -30,15 +30,11 @@ const getSingleBlogFromDb = async (id: string) => {
     
     const Like = await LikeModel.find({
       blogId: id,
-      // @ts-ignore
-      userId: result?.author._id,
     });
     const review = await ReviewModel.find({
       blogId: id,
-      // @ts-ignore
-      userId: result?.author._id,
-    })
-    // const data = {result[0]}
+    }).populate('userId')
+    // const data = {result[0]}t
     console.log({ ...result, ...Like });
     return { blog: result, Like: Like.length, review: review };
   }
