@@ -6,7 +6,9 @@ import sendResponse from "../../utils/sendResponse";
 import httpStatus from "http-status";
 
 const DoInteractionToBlog:RequestHandler = catchAsync(async(req,res)=>{
-    const {blogId,userId} = req.body
+    // @ts-ignore
+    const {_id:userId} = req.user
+    const {blogId} = req.params
     const result = await LikeService.DoInteractionToBlogInDb(blogId,userId)
     sendResponse(res,{
         statusCode: httpStatus.OK,
