@@ -11,7 +11,7 @@ const createBlogIntoDB = async (payload: TBlog, user) => {
   const result = await BlogModel.create({
     ...payload,
     status: role == 'admin' ? 'approved' : 'pending',
-    author : user._id,
+    author: user._id,
     postType: role == 'admin' ? 'admin' : 'guest',
   });
   return result;
@@ -19,7 +19,9 @@ const createBlogIntoDB = async (payload: TBlog, user) => {
 
 const getBlogFromDb = async (query: Partial<TBlog>) => {
   console.log(query);
-  const result = await BlogModel.find(query).populate('author');
+  const result = await BlogModel.find(query)
+    .populate('author')
+    .populate('reviews');
   return result;
 };
 const getSingleBlogFromDb = async (id: string) => {
@@ -27,13 +29,12 @@ const getSingleBlogFromDb = async (id: string) => {
   if (!result) {
     throw new AppError(httpStatus.NOT_FOUND, "Coludn't found the item");
   } else {
-    
     const Like = await LikeModel.find({
       blogId: id,
     });
     const review = await ReviewModel.find({
       blogId: id,
-    }).populate('userId')
+    }).populate('userId');
     // const data = {result[0]}t
     console.log({ ...result, ...Like });
     return { blog: result, Like: Like.length, review: review };

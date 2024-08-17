@@ -18,8 +18,15 @@ const BlogSchema = new Schema<TBlog>(
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   },
 );
+BlogSchema.virtual('reviews', {
+  ref: 'Review',
+  localField: '_id',
+  foreignField: 'blogId',
+});
 
 BlogSchema.pre('find', function (next) {
   this.find({ isDeleted: { $ne: true } });
