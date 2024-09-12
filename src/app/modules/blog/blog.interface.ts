@@ -12,6 +12,7 @@ export interface TBlog {
     category: string;
     images?: string;
     isDeleted:boolean;
+    featured:boolean;
     postType:'admin'|'guest'
     status:'pending'|'approved'
 }

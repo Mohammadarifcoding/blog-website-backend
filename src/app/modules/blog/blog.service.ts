@@ -15,6 +15,8 @@ const createBlogIntoDB = async (payload: TBlog, user) => {
     postType: role == 'admin' ? 'admin' : 'guest',
   });
   return result;
+
+  
 };
 
 const getBlogFromDb = async (query: Partial<TBlog>) => {
@@ -87,6 +89,14 @@ const RemoveLikeToBlogToDb = async (id: string) => {
   );
   return result;
 };
+
+
+
+const SearchBlogFromDb = async(text:string)=>{
+  const regex = new RegExp(text,'i')
+  const blog = await BlogModel.find({ title: { $regex: regex } }).exec()
+  return blog
+}
 export const BlogServices = {
   createBlogIntoDB,
   getBlogFromDb,
@@ -94,5 +104,5 @@ export const BlogServices = {
   deleteBlogFromDb,
   getSingleBlogFromDb,
   GiveLikeToBlogToDb,
-  RemoveLikeToBlogToDb,
+  RemoveLikeToBlogToDb,SearchBlogFromDb
 };

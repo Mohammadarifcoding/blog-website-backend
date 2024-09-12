@@ -15,6 +15,7 @@ const blogValidationSchema = z.object({
     category: z.string(),
     images: z.string(),
     isDeleted: z.boolean().default(false).optional(),
+    featured:z.boolean().default(false),
     status:z.enum(['pending','approved']).default('pending')
   }),
 });
@@ -28,6 +29,7 @@ const UpdateBlogValidation = z.object({
     category: z.string().optional(),
     images: z.string().optional(),
     isDeleted: z.boolean().default(false).optional(),
+    featured:z.boolean().default(false).optional(),
     status:z.enum(['pending','approved']).default('pending').optional()
   }),
 });
