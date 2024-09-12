@@ -63,18 +63,7 @@ const deleteBlog = catchAsync(async (req, res) => {
   });
 });
 
-const SearchBlog = catchAsync(async (req, res) => {
-  const { search } = req.query;
-  console.log(search);
-  const result = await BlogServices.SearchBlogFromDb(search as string);
 
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Blog fetched succesfully',
-    data: result,
-  });
-});
 // const GiveLikeToBlog = catchAsync(async (req, res) => {
 //   const { id } = req.params;
 //   const result = await BlogServices.GiveLikeToBlogToDb(id);
@@ -97,6 +86,18 @@ const RemoveLikeToBlog = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const GetUserBlog = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  
+  const result = await BlogServices.GetUserBlogFromDb(id,req.query);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Remove like from Blog',
+    data: result,
+  });
+});
 
 export const BlogControllers = {
   getSingleBlog,
@@ -104,6 +105,5 @@ export const BlogControllers = {
   updateBlog,
   createBlog,
   RemoveLikeToBlog,
-  getAllBlog,
-  SearchBlog,
+  getAllBlog,GetUserBlog
 };

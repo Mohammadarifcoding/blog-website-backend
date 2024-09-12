@@ -100,11 +100,20 @@ const RemoveLikeToBlogToDb = async (id: string) => {
   return result;
 };
 
-const SearchBlogFromDb = async (text: string) => {
-  const regex = new RegExp(text, 'i');
-  const blog = await BlogModel.find({ title: { $regex: regex } }).exec();
-  return blog;
-};
+const GetUserBlogFromDb = async(id:string,query:Partial<TBlog>)=>{
+  const title = ['title', 'content', 'tags', 'category'];
+  const blogQuery = new QueryBuilder(
+    BlogModel.find({author:id}).populate('author').populate('reviews'),
+    query,
+  )
+    .search(title)
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+  const result = await blogQuery.modelQuery;
+ return result
+}
 export const BlogServices = {
   createBlogIntoDB,
   getBlogFromDb,
@@ -112,6 +121,6 @@ export const BlogServices = {
   deleteBlogFromDb,
   getSingleBlogFromDb,
   GiveLikeToBlogToDb,
-  RemoveLikeToBlogToDb,
-  SearchBlogFromDb,
+  RemoveLikeToBlogToDb,GetUserBlogFromDb
+  
 };
