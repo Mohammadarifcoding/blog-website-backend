@@ -6,7 +6,7 @@ import { RequestHandler } from 'express';
 
 const createBlog: RequestHandler = catchAsync(async (req, res) => {
   // @ts-ignore
-  const result = await BlogServices.createBlogIntoDB(req.body,req.user);
+  const result = await BlogServices.createBlogIntoDB(req.body, req.user);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -34,7 +34,7 @@ const getSingleBlog: RequestHandler = catchAsync(async (req, res) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Blog is retrieved succesfully',
-    data: {...result},
+    data: { ...result },
   });
 });
 
@@ -64,7 +64,8 @@ const deleteBlog = catchAsync(async (req, res) => {
 });
 
 const SearchBlog = catchAsync(async (req, res) => {
-  const {search} = req.query
+  const { search } = req.query;
+  console.log(search);
   const result = await BlogServices.SearchBlogFromDb(search as string);
 
   sendResponse(res, {
@@ -101,6 +102,8 @@ export const BlogControllers = {
   getSingleBlog,
   deleteBlog,
   updateBlog,
-  createBlog,RemoveLikeToBlog,
-  getAllBlog,SearchBlog
+  createBlog,
+  RemoveLikeToBlog,
+  getAllBlog,
+  SearchBlog,
 };
