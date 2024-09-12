@@ -6,7 +6,7 @@ import { RequestHandler } from 'express';
 
 const createBlog: RequestHandler = catchAsync(async (req, res) => {
   // @ts-ignore
-  const result = await BlogServices.createBlogIntoDB(req.body,req.user);
+  const result = await BlogServices.createBlogIntoDB(req.body, req.user);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -34,7 +34,7 @@ const getSingleBlog: RequestHandler = catchAsync(async (req, res) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Blog is retrieved succesfully',
-    data: {...result},
+    data: { ...result },
   });
 });
 
@@ -62,6 +62,8 @@ const deleteBlog = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
+
 // const GiveLikeToBlog = catchAsync(async (req, res) => {
 //   const { id } = req.params;
 //   const result = await BlogServices.GiveLikeToBlogToDb(id);
@@ -84,11 +86,24 @@ const RemoveLikeToBlog = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const GetUserBlog = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  
+  const result = await BlogServices.GetUserBlogFromDb(id,req.query);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Remove like from Blog',
+    data: result,
+  });
+});
 
 export const BlogControllers = {
   getSingleBlog,
   deleteBlog,
   updateBlog,
-  createBlog,RemoveLikeToBlog,
-  getAllBlog
+  createBlog,
+  RemoveLikeToBlog,
+  getAllBlog,GetUserBlog
 };

@@ -1,10 +1,10 @@
 import httpStatus from 'http-status';
+import QueryBuilder from '../../builder/QueryBuilder';
 import AppError from '../../errors/AppError';
+import { LikeModel } from '../like/like.model';
+import { ReviewModel } from '../review/review.model';
 import { TBlog } from './blog.interface';
 import { BlogModel } from './blog.model';
-import { LikeModel } from '../like/like.model';
-import { UserModel } from '../user/user.model';
-import { ReviewModel } from '../review/review.model';
 // @ts-ignore
 const createBlogIntoDB = async (payload: TBlog, user) => {
   const { role } = user;
@@ -19,9 +19,17 @@ const createBlogIntoDB = async (payload: TBlog, user) => {
 
 const getBlogFromDb = async (query: Partial<TBlog>) => {
   console.log(query);
-  const result = await BlogModel.find(query)
-    .populate('author')
-    .populate('reviews');
+  const title = ['title', 'content', 'tags', 'category'];
+  const blogQuery = new QueryBuilder(
+    BlogModel.find().populate('author').populate('reviews'),
+    query,
+  )
+    .search(title)
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+  const result = await blogQuery.modelQuery;
   return result;
 };
 const getSingleBlogFromDb = async (id: string) => {
@@ -37,7 +45,11 @@ const getSingleBlogFromDb = async (id: string) => {
     }).populate('userId');
     // const data = {result[0]}t
     console.log({ ...result, ...Like });
-    return { blog: result, Like: Like.length, review: review };
+    const relatedBlogs = await BlogModel.find({
+      _id: { $ne: result._id },
+      category: result.category,
+    });
+    return { blog: result, Like: Like.length, review: review, relatedBlogs };
   }
 };
 
@@ -87,6 +99,21 @@ const RemoveLikeToBlogToDb = async (id: string) => {
   );
   return result;
 };
+
+const GetUserBlogFromDb = async(id:string,query:Partial<TBlog>)=>{
+  const title = ['title', 'content', 'tags', 'category'];
+  const blogQuery = new QueryBuilder(
+    BlogModel.find({author:id}).populate('author').populate('reviews'),
+    query,
+  )
+    .search(title)
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+  const result = await blogQuery.modelQuery;
+ return result
+}
 export const BlogServices = {
   createBlogIntoDB,
   getBlogFromDb,
@@ -94,5 +121,6 @@ export const BlogServices = {
   deleteBlogFromDb,
   getSingleBlogFromDb,
   GiveLikeToBlogToDb,
-  RemoveLikeToBlogToDb,
+  RemoveLikeToBlogToDb,GetUserBlogFromDb
+  
 };

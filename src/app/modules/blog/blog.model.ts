@@ -12,8 +12,9 @@ const BlogSchema = new Schema<TBlog>(
     category: { type: String, required: true },
     images: { type: String, default: [] },
     author: { type: String, required: true, ref: 'User' },
-    status:{type:String , enum:['pending','approved'] , default:'pending'},
-    postType : {type: String , enum: ['admin','guest']},
+    featured: { type: Boolean, default: false },
+    status: { type: String, enum: ['pending', 'approved'], default: 'pending' },
+    postType: { type: String, enum: ['admin', 'guest'] },
     isDeleted: { type: Boolean, default: false },
   },
   {
