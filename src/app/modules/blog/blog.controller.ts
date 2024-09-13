@@ -98,12 +98,22 @@ const GetUserBlog = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const getAllPendingApprovedBlog: RequestHandler = catchAsync(async (req, res) => {
+  const result = await BlogServices.GetAllBlogIncludingPendingApprovedFromDb(req.query);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'All type of blog retrieved successfully',
+    data: result,
+  });
+});
 
 export const BlogControllers = {
   getSingleBlog,
   deleteBlog,
   updateBlog,
   createBlog,
-  RemoveLikeToBlog,
+  RemoveLikeToBlog,getAllPendingApprovedBlog,
   getAllBlog,GetUserBlog
 };

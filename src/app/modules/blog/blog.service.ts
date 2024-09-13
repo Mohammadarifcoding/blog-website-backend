@@ -21,7 +21,7 @@ const getBlogFromDb = async (query: Partial<TBlog>) => {
   console.log(query);
   const title = ['title', 'content', 'tags', 'category'];
   const blogQuery = new QueryBuilder(
-    BlogModel.find().populate('author').populate('reviews'),
+    BlogModel.find({status:'approved'}).populate('author').populate('reviews'),
     query,
   )
     .search(title)
@@ -114,11 +114,26 @@ const GetUserBlogFromDb = async(id:string,query:Partial<TBlog>)=>{
   const result = await blogQuery.modelQuery;
  return result
 }
+
+const GetAllBlogIncludingPendingApprovedFromDb = async(query : Partial<TBlog>)=>{
+  const title = ['title', 'content', 'tags', 'category'];
+  const blogQuery = new QueryBuilder(
+    BlogModel.find().populate('author').populate('reviews'),
+    query,
+  )
+    .search(title)
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+  const result = await blogQuery.modelQuery;
+  return result;
+}
 export const BlogServices = {
   createBlogIntoDB,
   getBlogFromDb,
   updateBlogFromDb,
-  deleteBlogFromDb,
+  deleteBlogFromDb,GetAllBlogIncludingPendingApprovedFromDb,
   getSingleBlogFromDb,
   GiveLikeToBlogToDb,
   RemoveLikeToBlogToDb,GetUserBlogFromDb

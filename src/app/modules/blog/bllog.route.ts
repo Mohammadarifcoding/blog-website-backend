@@ -24,5 +24,6 @@ router.patch(
 router.delete('/:id',auth('user', 'admin'),  BlogControllers.deleteBlog);
 
 router.get('/user/:id',auth('user', 'admin'),BlogControllers.GetUserBlog)
+router.get('/any/blog',auth('user','admin'), BlogControllers.getAllPendingApprovedBlog)
 // router.get('/',BlogControllers.SearchBlog)
 export const BlogRoutes = router;
