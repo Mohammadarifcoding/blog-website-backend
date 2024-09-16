@@ -19,7 +19,7 @@ const createBlogIntoDB = async (payload: TBlog, user) => {
 
 const getBlogFromDb = async (query: Partial<TBlog>) => {
   console.log(query);
-  const title = ['title', 'content', 'tags', 'category'];
+  const title = ['title', 'content'];
   const blogQuery = new QueryBuilder(
     BlogModel.find({status:'approved'}).populate('author').populate('reviews'),
     query,
