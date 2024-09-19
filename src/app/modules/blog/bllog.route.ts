@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.get('/', BlogControllers.getAllBlog);
 
-router.get('/:id',  BlogControllers.getSingleBlog);
+router.get('/:id', BlogControllers.getSingleBlog);
 router.post(
   '/',
   auth('user', 'admin'),
@@ -21,9 +21,13 @@ router.patch(
   validateRequest(BlogValidation.UpdateBlogValidation),
   BlogControllers.updateBlog,
 );
-router.delete('/:id',auth('user', 'admin'),  BlogControllers.deleteBlog);
+router.delete('/:id', auth('user', 'admin'), BlogControllers.deleteBlog);
 
-router.get('/user/:id',auth('user', 'admin'),BlogControllers.GetUserBlog)
-router.get('/any/blog',auth('user','admin'), BlogControllers.getAllPendingApprovedBlog)
+router.get('/user/my-blog', auth('user', 'admin'), BlogControllers.GetUserBlog);
+router.get(
+  '/any/blog',
+  auth('user', 'admin'),
+  BlogControllers.getAllPendingApprovedBlog,
+);
 // router.get('/',BlogControllers.SearchBlog)
 export const BlogRoutes = router;

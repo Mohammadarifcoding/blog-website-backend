@@ -5,6 +5,7 @@ import { LikeModel } from '../like/like.model';
 import { ReviewModel } from '../review/review.model';
 import { TBlog } from './blog.interface';
 import { BlogModel } from './blog.model';
+import mongoose from 'mongoose';
 // @ts-ignore
 const createBlogIntoDB = async (payload: TBlog, user) => {
   const { role } = user;
@@ -21,7 +22,9 @@ const getBlogFromDb = async (query: Partial<TBlog>) => {
   console.log(query);
   const title = ['title', 'content'];
   const blogQuery = new QueryBuilder(
-    BlogModel.find({status:'approved'}).populate('author').populate('reviews'),
+    BlogModel.find({ status: 'approved' })
+      .populate('author')
+      .populate('reviews'),
     query,
   )
     .search(title)
@@ -30,8 +33,20 @@ const getBlogFromDb = async (query: Partial<TBlog>) => {
     .paginate()
     .fields();
   const result = await blogQuery.modelQuery;
-  return result;
+  const newData = new QueryBuilder(
+    BlogModel.find({ status: 'approved' })
+      .populate('author')
+      .populate('reviews'),
+    query,
+  )
+    .search(title)
+    .filter()
+    .sort()
+    .fields();
+  const data = await newData.modelQuery;
+  return { result: [...result], totalBlog: data.length };
 };
+
 const getSingleBlogFromDb = async (id: string) => {
   const result = await BlogModel.findOne({ _id: id }).populate('author');
   if (!result) {
@@ -100,22 +115,30 @@ const RemoveLikeToBlogToDb = async (id: string) => {
   return result;
 };
 
-const GetUserBlogFromDb = async(id:string,query:Partial<TBlog>)=>{
-  const title = ['title', 'content', 'tags', 'category'];
-  const blogQuery = new QueryBuilder(
-    BlogModel.find({author:id}).populate('author').populate('reviews'),
-    query,
-  )
-    .search(title)
-    .filter()
-    .sort()
-    .paginate()
-    .fields();
-  const result = await blogQuery.modelQuery;
- return result
-}
+const GetUserBlogFromDb = async (id: string) => {
+  // const title = ['title', 'content', 'tags', 'category'];
+  // const blogQuery = new QueryBuilder(
+  //   BlogModel.find({ author: id }).populate('author').populate('reviews'),
+  //   query,
+  // )
+  //   .search(title)
+  //   .filter()
+  //   .sort()
+  //   .paginate()
+  //   .fields();
+  // const result = await blogQuery.modelQuery;
+  // const totalBlog = await BlogModel.find({ author: id });
+  // return { result: [...result], totalBlog: totalBlog.length };
+  console.log(id)
+  const result = await BlogModel.find({ author: new mongoose.Types.ObjectId(id) })
+    .populate('author')
+    .populate('reviews');
+  return result;
+};
 
-const GetAllBlogIncludingPendingApprovedFromDb = async(query : Partial<TBlog>)=>{
+const GetAllBlogIncludingPendingApprovedFromDb = async (
+  query: Partial<TBlog>,
+) => {
   const title = ['title', 'content', 'tags', 'category'];
   const blogQuery = new QueryBuilder(
     BlogModel.find().populate('author').populate('reviews'),
@@ -128,14 +151,15 @@ const GetAllBlogIncludingPendingApprovedFromDb = async(query : Partial<TBlog>)=>
     .fields();
   const result = await blogQuery.modelQuery;
   return result;
-}
+};
 export const BlogServices = {
   createBlogIntoDB,
   getBlogFromDb,
   updateBlogFromDb,
-  deleteBlogFromDb,GetAllBlogIncludingPendingApprovedFromDb,
+  deleteBlogFromDb,
+  GetAllBlogIncludingPendingApprovedFromDb,
   getSingleBlogFromDb,
   GiveLikeToBlogToDb,
-  RemoveLikeToBlogToDb,GetUserBlogFromDb
-  
+  RemoveLikeToBlogToDb,
+  GetUserBlogFromDb,
 };
